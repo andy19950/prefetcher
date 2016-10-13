@@ -60,6 +60,15 @@ int main(int argc, char *argv[])
 #ifdef NAIVE
         naive_transpose(src, out, TEST_W, TEST_H);
 #endif
+
+#ifdef AVX
+        avx_transpose(src, out, TEST_W, TEST_H);
+#endif
+
+#ifdef AVXPRE
+        avx_prefetch_transpose(src, out, TEST_W, TEST_H);
+#endif
+
         free(src);
         free(out);
         //data_correctness();

@@ -26,7 +26,7 @@ int main(int argc, char const *argv[])
     clock_gettime(CLOCK_ID, &start);
     naive_transpose(src, out, TEST_W, TEST_H);
     clock_gettime(CLOCK_ID, &end);
-    printf("%.4f ", (double) (end.tv_sec - start.tv_sec) +
+    printf("Naive %.4f\n", (double) (end.tv_sec - start.tv_sec) +
            (end.tv_nsec - start.tv_nsec)/ONE_SEC);
 
 
@@ -34,7 +34,7 @@ int main(int argc, char const *argv[])
     clock_gettime(CLOCK_ID, &start);
     sse_transpose(src, out, TEST_W, TEST_H);
     clock_gettime(CLOCK_ID, &end);
-    printf("%.4f ", (double) (end.tv_sec - start.tv_sec) +
+    printf("SSE %.4f\n", (double) (end.tv_sec - start.tv_sec) +
            (end.tv_nsec - start.tv_nsec)/ONE_SEC);
 
 
@@ -42,16 +42,23 @@ int main(int argc, char const *argv[])
     clock_gettime(CLOCK_ID, &start);
     sse_prefetch_transpose(src, out, TEST_W, TEST_H);
     clock_gettime(CLOCK_ID, &end);
-    printf("%.4f\n", (double) (end.tv_sec - start.tv_sec) +
+    printf("SSE_prefetch %.4f\n", (double) (end.tv_sec - start.tv_sec) +
            (end.tv_nsec - start.tv_nsec)/ONE_SEC);
 
 
-    // SSE prefetch AVX
-    //clock_gettime(CLOCK_ID, &start);
-    //clock_gettime(CLOCK_ID, &end);
-    //printf("%.4f ", (double) (end.tv_sec - start.tv_sec) +
-    //     (end.tv_nsec - start.tv_nsec)/ONE_SEC);
+    // AVX
+    clock_gettime(CLOCK_ID, &start);
+    avx_transpose(src, out, TEST_W, TEST_H);
+    clock_gettime(CLOCK_ID, &end);
+    printf("AVX %.4f\n", (double) (end.tv_sec - start.tv_sec) +
+           (end.tv_nsec - start.tv_nsec)/ONE_SEC);
 
+    // AVX prefetch
+    clock_gettime(CLOCK_ID, &start);
+    avx_prefetch_transpose(src, out, TEST_W, TEST_H);
+    clock_gettime(CLOCK_ID, &end);
+    printf("AVX_prefetch %.4f\n", (double) (end.tv_sec - start.tv_sec) +
+           (end.tv_nsec - start.tv_nsec)/ONE_SEC);
 
     return 0;
 }
